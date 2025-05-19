@@ -34,7 +34,11 @@ const Item: React.FC<ItemProps> = ({ item, changeDisplay }) => {
     <View style={styles.itemContainer}>
       <Text style={[styles.title, { fontSize: 20 }]}>{item.title}</Text>
       {!changeDisplay ? (
-        <Text style={[styles.message, { fontSize: 16 }]}>{item.body}</Text>
+        <>
+                <Text style={[styles.message, { fontSize: 16 }]}>{item.body}</Text>
+
+
+        </>
       ) : null}
     </View>
   );
