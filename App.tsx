@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Switch } from "react-native";
+import { Text, View, StyleSheet, Switch, Platform } from "react-native";
 import { LegendList } from "@legendapp/list";
 
 interface MessageItem {
@@ -36,8 +36,6 @@ const Item: React.FC<ItemProps> = ({ item, changeDisplay }) => {
       {!changeDisplay ? (
         <>
                 <Text style={[styles.message, { fontSize: 16 }]}>{item.body}</Text>
-
-
         </>
       ) : null}
     </View>
@@ -70,7 +68,7 @@ const App = () => {
 
       setPage(pageNumber);
       setLoading(false);
-    }, 800);
+    }, 200);
   };
 
   useEffect(() => {
@@ -93,6 +91,7 @@ const App = () => {
     <Item item={item} changeDisplay={changeDisplay} />
   );
 
+  if(data.length < 1) return
   return (
     <View style={styles.container}>
       <View style={styles.changeDisplayContainer}>
@@ -104,13 +103,21 @@ const App = () => {
       </View>
 
       <LegendList
-        data={data}
+        data={data.reverse()}
         renderItem={renderItem}
+        extraData={{data, changeDisplay}}
         keyExtractor={keyExtractor}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
+        onStartReached={handleEndReached}
+        onStartReachedThreshold={0.5}
         recycleItems={false}
         contentContainerStyle={styles.listContainer}
+        keyboardDismissMode={Platform.OS === "ios" ? 'on-drag' : 'none'}
+        keyboardShouldPersistTaps='always'
+        alignItemsAtEnd
+        maintainScrollAtEnd
+        initialScrollIndex={data.length -1}
+        maintainScrollAtEndThreshold={0}
+        maintainVisibleContentPosition
       />
     </View>
   );
