@@ -91,7 +91,10 @@ const App = () => {
     <Item item={item} changeDisplay={changeDisplay} />
   );
 
+const reversedList = [...data].reverse();
+
   if(data.length < 1) return
+  
   return (
     <View style={styles.container}>
       <View style={styles.changeDisplayContainer}>
@@ -103,7 +106,7 @@ const App = () => {
       </View>
 
       <LegendList
-        data={data.reverse()}
+        data={reversedList}
         renderItem={renderItem}
         extraData={{data, changeDisplay}}
         keyExtractor={keyExtractor}
